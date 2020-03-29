@@ -1,8 +1,9 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import UserNameForm from './UserNameForm';
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <header className="App-header">
@@ -10,8 +11,9 @@ function App() {
         <p>
           Cheng Fei - 费城
         </p>
+        <UserNameForm />
       </header>
-    </div>
+    </div >
   );
 }
 
