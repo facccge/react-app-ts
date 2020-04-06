@@ -1,21 +1,44 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 
 const UserNameForm = () => {
-  const [input, setInput] = useState('');
-  const [userName, setUserName] = useState('');
+  const [user, setUser] = useState({
+    firstName: '',
+    lastName: ''
+  });
+
   const handleClick = () => {
-    setUserName(input);
+    alert(`${user.firstName} ${user.lastName}`);
   };
-  const handleChange = (event: ChangeEvent<HTMLInputElement>)=>{
-    setInput(event.target.value)
-  }
+
+  const handleChangeFirstName = (event: ChangeEvent<HTMLInputElement>) => {
+    setUser({
+      ...user,
+      firstName: event.target.value
+    })
+  };
+
+  const handleChangeLastName = (event: ChangeEvent<HTMLInputElement>) => {
+    setUser({
+      ...user,
+      lastName: event.target.value
+    })
+  };
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  }
+  };
+
   return (<form onSubmit={handleSubmit}>
-    <p>提交的内容: {userName}</p>
-    <input placeholder="请在这里输入用户名" onChange={handleChange} />
-    <button onClick={handleClick} value="提交"/>
+    <h1>Personal Info</h1>
+    <div>
+      <label>First Name:</label>
+      <input onChange={handleChangeFirstName} />
+    </div>
+    <div>
+      <label>Last Name:</label>
+      <input onChange={handleChangeLastName} />
+    </div>
+    <button onClick={handleClick}>提交</button>
   </form>)
 };
 
