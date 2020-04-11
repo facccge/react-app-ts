@@ -1,27 +1,45 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import SkillSelect from '../components/SkillSelect';
+import RegionSelect from '../components/RegionSelect';
 
 interface UserState {
   firstName: string,
   lastName: string,
   gender: string,
   grade: string,
-  skill: string[]
+  skill: string[],
+  provience: string,
+  city: string
 }
 
 const UserForm = () => {
   const skills = ['Java', 'JavaScript', 'C', 'C++', 'C#', 'Python'];
+  const regions = [{
+    provience: 'Shaan Xi',
+    cities: ['Xi\'an', 'Xianyang', 'Baoji']
+  }, {
+    provience: 'Si Chuan',
+    cities: ['Chengdu', 'Leshan', 'Mianyang', 'Guangyuan']
+  }];
 
   const [user, setUser] = useState<UserState>({
     firstName: '',
     lastName: '',
     gender: 'male',
-    grade: 'grade1',
-    skill: []
+    grade: 'Grade 1',
+    skill: [],
+    provience: 'Shaan Xi',
+    city: 'Xi\'an'
   });
 
   const handleClick = () => {
-    alert(`${user.firstName} ${user.lastName} ${user.gender} ${user.grade} ${user.skill}`);
+    alert(`firstName:${user.firstName} 
+lastName${user.lastName}
+gender:${user.gender} 
+grade:${user.grade} 
+skill:${user.skill}
+provience:${user.provience}
+city:${user.city}`);
   };
 
   const handleChangeFirstName = (event: ChangeEvent<HTMLInputElement>) => {
@@ -42,6 +60,20 @@ const UserForm = () => {
     setUser({
       ...user,
       grade: event.target.value
+    })
+  };
+
+  const handleChangeProvience = (event: ChangeEvent<HTMLSelectElement>) => {
+    setUser({
+      ...user,
+      provience: event.target.value
+    })
+  };
+
+  const handleChangeCity = (event: ChangeEvent<HTMLSelectElement>) => {
+    setUser({
+      ...user,
+      city: event.target.value
     })
   };
 
@@ -112,6 +144,9 @@ const UserForm = () => {
     </div>
     <div>
       <SkillSelect value={user.skill} skills={skills} handleChangeSkill={handleChangeSkill} />
+    </div>
+    <div>
+      <RegionSelect regions={regions} provience={user.provience} handleChangeProvince={handleChangeProvience} handleChangeCity={handleChangeCity} />
     </div>
     <button onClick={handleClick}>提交</button>
   </form>)
