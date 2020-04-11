@@ -1,10 +1,10 @@
 import React from 'react';
-import UserNameForm from './UserNameForm';
+import UserForm from './containers/UserForm';
 
 const App = () => {
   return (
     <div className="App">
-      <UserNameForm data-testid="UserNameForm"/>
+      <UserForm/>
     </div >
   );
 }

@@ -1,13 +1,23 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
-import './UserNameForm.css';
+import SkillSelect from '../components/SkillSelect';
 
-const UserNameForm = () => {
-  const [user, setUser] = useState({
+interface UserState {
+  firstName: string,
+  lastName: string,
+  gender: string,
+  grade: string,
+  skill: string[]
+}
+
+const UserForm = () => {
+  const skills = ['Java', 'JavaScript', 'C', 'C++', 'C#', 'Python'];
+
+  const [user, setUser] = useState<UserState>({
     firstName: '',
     lastName: '',
     gender: 'male',
     grade: 'grade1',
-    skill: ''
+    skill: []
   });
 
   const handleClick = () => {
@@ -37,29 +47,19 @@ const UserNameForm = () => {
 
   const handleChangeSkill = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedSkill = event.target.value;
-    if (user.skill === '') {
+    const skill = user.skill;
+    const index = skill.indexOf(selectedSkill);
+    if (index >= 0) {
+      skill.splice(index, 1);
       setUser({
         ...user,
-        skill: selectedSkill
-      })
+        skill
+      });
     } else {
-      const skillArray = user.skill.split(';');
-      if (skillArray.includes(selectedSkill)) {
-        const index = skillArray.indexOf(selectedSkill);
-        if (index > -1) {
-          skillArray.splice(index, 1);
-        }
-        setUser({
-          ...user,
-          skill: skillArray.join(';')
-        })
-      } else {
-        skillArray.push(selectedSkill);
-        setUser({
-          ...user,
-          skill: skillArray.join(';')
-        })
-      }
+      setUser({
+        ...user,
+        skill: skill.concat(selectedSkill)
+      });
     }
   };
 
@@ -111,18 +111,10 @@ const UserNameForm = () => {
       </select>
     </div>
     <div>
-      <label>Skill:</label>
-      <input className="skill" value={user.skill} />
-      <select onChange={handleChangeSkill} multiple>
-        <option value="Java">Java</option>
-        <option value="JavaScript">JavaScript</option>
-        <option value="C">C</option>
-        <option value="C++">C++</option>
-        <option value="C#">C#</option>
-      </select>
+      <SkillSelect value={user.skill} skills={skills} handleChangeSkill={handleChangeSkill} />
     </div>
     <button onClick={handleClick}>提交</button>
   </form>)
 };
 
-export default UserNameForm;
+export default UserForm;
