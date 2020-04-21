@@ -6,7 +6,7 @@ const SkillSelect = (props: { value: string[]; skills: string[]; handleChangeSki
   return (
     <div>
       <label>Skill:</label>
-      <input className="skill" value={value.join(';')} />
+      <input required className="skill" value={value.join(';')} />
       <select onChange={handleChangeSkill} multiple>
         {skills.map(skill => <option value={skill} key={skill}>{skill}</option>)}
       </select>

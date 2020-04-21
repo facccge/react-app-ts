@@ -114,11 +114,11 @@ const UserForm = () => {
         <h1>Personal Info</h1>
         <div>
           <label>First Name:</label>
-          <input onChange={handleChangeFirstName} />
+          <input required pattern="[a-zA-Z]+" onChange={handleChangeFirstName} />
         </div>
         <div>
           <label>Last Name:</label>
-          <input onChange={handleChangeLastName} />
+          <input required pattern="[a-zA-Z]+" onChange={handleChangeLastName} />
         </div>
         <div>
           <label>Gender:</label>
