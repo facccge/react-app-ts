@@ -8,7 +8,7 @@ const SkillSelect = (props: { value: string[]; skills: string[]; handleChangeSki
       <label>Skill:</label>
       <input className="skill" value={value.join(';')} />
       <select onChange={handleChangeSkill} multiple>
-        {skills.map(skill => <option value={skill}>{skill}</option>)}
+        {skills.map(skill => <option value={skill} key={skill}>{skill}</option>)}
       </select>
     </div>
   );

@@ -12,14 +12,16 @@ const RegionSelect = (props: Props) => {
     <div>
       <label>Provience:</label>
       <select onChange={handleChangeProvince}>
-        {regions.map(item => item.provience).map(provience => <option value={provience}>{provience}</option>)}
+        {regions
+          .map(item => item.provience)
+          .map(provience => <option value={provience} key={provience}>{provience}</option>)}
       </select>
       <label>City:</label>
       <select onChange={handleChangeCity}>
         {regions
           .filter(item => item.provience === provience)
           .flatMap(item => item.cities, [])
-          .map(city => <option value={city}>{city}</option>)}
+          .map(city => <option value={city} key={city}>{city}</option>)}
       </select>
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import SkillSelect from '../components/SkillSelect';
 import RegionSelect from '../components/RegionSelect';
+import { Link, useHistory } from 'react-router-dom';
 
 interface UserState {
   firstName: string,
@@ -13,6 +14,7 @@ interface UserState {
 }
 
 const UserForm = () => {
+  const history = useHistory();
   const skills = ['Java', 'JavaScript', 'C', 'C++', 'C#', 'Python'];
   const regions = [{
     provience: 'Shaan Xi',
@@ -31,16 +33,6 @@ const UserForm = () => {
     provience: 'Shaan Xi',
     city: 'Xi\'an'
   });
-
-  const handleClick = () => {
-    alert(`firstName:${user.firstName} 
-lastName${user.lastName}
-gender:${user.gender} 
-grade:${user.grade} 
-skill:${user.skill}
-provience:${user.provience}
-city:${user.city}`);
-  };
 
   const handleChangeFirstName = (event: ChangeEvent<HTMLInputElement>) => {
     setUser({
@@ -110,46 +102,53 @@ city:${user.city}`);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    const storageUserList = JSON.parse(localStorage.getItem('userList') || '[]');
+    storageUserList.push(user);
+    localStorage.setItem('userList', JSON.stringify(storageUserList));
+    history.push('/list');
   };
 
-  return (<form onSubmit={handleSubmit}>
-    <h1>Personal Info</h1>
-    <div>
-      <label>First Name:</label>
-      <input onChange={handleChangeFirstName} />
-    </div>
-    <div>
-      <label>Last Name:</label>
-      <input onChange={handleChangeLastName} />
-    </div>
-    <div>
-      <label>Gender:</label>
-      <label>
-        <input type="radio" value="male" onClick={handleClickMale} checked={user.gender === 'male'} />
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <h1>Personal Info</h1>
+        <div>
+          <label>First Name:</label>
+          <input onChange={handleChangeFirstName} />
+        </div>
+        <div>
+          <label>Last Name:</label>
+          <input onChange={handleChangeLastName} />
+        </div>
+        <div>
+          <label>Gender:</label>
+          <label>
+            <input radioGroup="gender" type="radio" value="male" onClick={handleClickMale} checked={user.gender === 'male'} />
             Male
           </label>
-      <label>
-        <input type="radio" value="female" onClick={handleClickFemale} checked={user.gender === 'female'} />
+          <label>
+            <input radioGroup="gender" type="radio" value="female" onClick={handleClickFemale} checked={user.gender === 'female'} />
             Female
           </label>
-    </div>
-    <div>
-      <label>Grade:</label>
-      <select onChange={handleChangeGrade}>
-        <option value="grade1">Grade 1</option>
-        <option value="grade2">Grade 2</option>
-        <option value="grade3">Grade 3</option>
-      </select>
-    </div>
-    <div>
-      <SkillSelect value={user.skill} skills={skills} handleChangeSkill={handleChangeSkill} />
-    </div>
-    <div>
-      <RegionSelect regions={regions} provience={user.provience} handleChangeProvince={handleChangeProvience} handleChangeCity={handleChangeCity} />
-    </div>
-    <button onClick={handleClick}>提交</button>
-  </form>)
+        </div>
+        <div>
+          <label>Grade:</label>
+          <select onChange={handleChangeGrade}>
+            <option value="grade1" key="Grade 1">Grade 1</option>
+            <option value="grade2" key="Grade 2">Grade 2</option>
+            <option value="grade3" key="Grade 3">Grade 3</option>
+          </select>
+        </div>
+        <div>
+          <SkillSelect value={user.skill} skills={skills} handleChangeSkill={handleChangeSkill} />
+        </div>
+        <div>
+          <RegionSelect regions={regions} provience={user.provience} handleChangeProvince={handleChangeProvience} handleChangeCity={handleChangeCity} />
+        </div>
+        <button type='submit'>提交</button>
+      </form>
+      <Link to="/list">Go to user list</Link>
+    </>)
 };
 
 export default UserForm;
